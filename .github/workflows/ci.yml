@@ -1,0 +1,26 @@
+name: ci-test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v4
+        with:
+          go-version: ^1.20
+        id: go
+
+      - name: Check out code into eht Go module directory
+        uses: action/checkout@v4
+
+      - name: Test
+        run: make test
