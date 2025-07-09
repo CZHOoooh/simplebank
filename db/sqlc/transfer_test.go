@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"github.com/stretchr/testify/require"
 	"simplebank/utils"
 	"testing"
@@ -50,35 +49,6 @@ func TestGetTransfer(t *testing.T) {
 	require.Equal(t, transfer1.Amount, transfer2.Amount)
 	require.WithinDuration(t, transfer1.CreatedAt, transfer2.CreatedAt, time.Second)
 
-}
-
-func TestUpdateTransfer(t *testing.T) {
-	transfer1 := CreateRandomTransfer(t)
-	arg := UpdateTransferParams{
-		ID:     transfer1.ID,
-		Amount: utils.RandomMoney(),
-	}
-
-	transfer2, err := testQueries.UpdateTransfer(context.Background(), arg)
-	require.NoError(t, err)
-	require.NotEmpty(t, transfer2)
-
-	require.Equal(t, transfer1.ID, transfer2.ID)
-	require.Equal(t, transfer1.FromAccountID, transfer2.FromAccountID)
-	require.Equal(t, transfer1.ToAccountID, transfer2.ToAccountID)
-	require.Equal(t, arg.Amount, transfer2.Amount)
-	require.WithinDuration(t, transfer1.CreatedAt, transfer2.CreatedAt, time.Second)
-}
-
-func TestDeleteTransfer(t *testing.T) {
-	transfer1 := CreateRandomTransfer(t)
-	err := testQueries.DeleteTransfer(context.Background(), transfer1.ID)
-	require.NoError(t, err)
-
-	transfer2, err := testQueries.GetTransfer(context.Background(), transfer1.ID)
-	require.Error(t, err)
-	require.Empty(t, transfer2)
-	require.EqualError(t, err, sql.ErrNoRows.Error())
 }
 
 func TestListTransfers(t *testing.T) {
