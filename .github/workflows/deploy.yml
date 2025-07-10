@@ -17,7 +17,7 @@ jobs:
       - name: Login to ACR
         uses: aliyun/acr-login@v1
         with:
-          login-server: https://registry.cn-hangzhou.aliyuncs.com
+          login-server: crpi-y68z5qk85uun0fem.cn-shenzhen.personal.cr.aliyuncs.com
           username: "${{ secrets.REGISTRY_USERNAME }}"
           password: "${{ secrets.REGISTRY_PASSWORD }}"
       - name: Build and push image
