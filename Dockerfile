@@ -10,7 +10,11 @@ RUN go build -o main main.go
 FROM alpine:3.22
 WORKDIR /app
 COPY --from=builder /app/main .
+COPY migrate .
 COPY app.env .
+COPY start.sh .
+COPY db/migration ./migration
 
 EXPOSE 8080
 CMD [ "/app/main" ]
+ENTRYPOINT [ "/app/start.sh" ]
